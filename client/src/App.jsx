@@ -8,11 +8,14 @@ function App() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
 
+  // Use deployed backend URL
+  const API_BASE = "https://archit-lumio.onrender.com";
+
   // 🔹 Call backend for summary
   const handleSummarize = async () => {
     try {
       setStatus("Generating summary...");
-      const res = await axios.post("http://localhost:5000/summarize", {
+      const res = await axios.post(`${API_BASE}/summarize`, {
         transcript,
         prompt,
       });
@@ -28,7 +31,7 @@ function App() {
   const handleSendEmail = async () => {
     try {
       setStatus("Sending email...");
-      await axios.post("http://localhost:5000/send-email", {
+      await axios.post(`${API_BASE}/send-email`, {
         to: email,
         subject: "Meeting Summary",
         text: summary,
@@ -41,7 +44,14 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif", maxWidth: "800px", margin: "auto" }}>
+    <div
+      style={{
+        padding: "20px",
+        fontFamily: "sans-serif",
+        maxWidth: "800px",
+        margin: "auto",
+      }}
+    >
       <h1>AI Meeting Notes Summarizer 📝</h1>
 
       {/* Transcript Upload (text area) */}
@@ -61,7 +71,10 @@ function App() {
         style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
       />
 
-      <button onClick={handleSummarize} style={{ padding: "10px", marginBottom: "20px" }}>
+      <button
+        onClick={handleSummarize}
+        style={{ padding: "10px", marginBottom: "20px" }}
+      >
         Generate Summary
       </button>
 
